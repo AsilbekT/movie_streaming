@@ -1,26 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <video ref="videoPlayer" class="video-js"></video>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import 'video.js/dist/video-js.css';
+import videojs from 'video.js';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  mounted() {
+    const player = videojs(this.$refs.videoPlayer, {
+      controls: true,
+      autoplay: false, // Disable autoplay
+      muted: true, // Mute the video initially if desired
+      sources: [
+        {
+          src: 'http://127.0.0.1:7007/videos/master.m3u8',
+          type: 'application/x-mpegURL',
+        },
+      ],
+    });
+    player.play();
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+    // You could add a play button and use player.play() when it's clicked
+  }
+
+};
+</script>
